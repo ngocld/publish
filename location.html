@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Public IP and Country with Geo IPify</title>
+</head>
+<body>
+    <h1>Your Public IP and Country</h1>
+    <p id="ip-display">Fetching your IP and location...</p>
+
+    <script>
+        async function getPublicIPAndCountry() {
+            const apiKey = 'at_rpDWW5ukkH0rev9fs4uaG72A7rlLD'; // Replace this with your Geo IPify API key
+            try {
+
+                // Call the Geo IPify API
+                const response = await fetch(`https://geo.ipify.org/api/v2/country?apiKey=${apiKey}`);
+                if (!response.ok) throw new Error('Failed to fetch data from Geo IPify API');
+                const data = await response.json();
+
+                // Extract IP and country information
+                const ipAddress = data.ip;
+                const country = data.location.country;
+                const region = data.location.region;
+                const timezone = data.location.timezone;
+
+                // Display the information
+                document.getElementById('ip-display').innerText = 
+                    `Your IP Address: ${ipAddress}
+                    Country: ${country}
+                    Region: ${country}
+                    Time Zone: ${timezone}
+
+                    ISP: ${data.isp}
+                    Route: ${data.as.route}
+                    Domain: ${data.as.domain}
+                    Type: ${data.as.type}
+                    `;
+            } catch (error) {
+                document.getElementById('ip-display').innerText = 'Error fetching IP or location data.';
+                console.error(error);
+            }
+        }
+
+        // Call the function on page load
+        getPublicIPAndCountry();
+    </script>
+</body>
+</html>
