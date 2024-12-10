@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+    <title>Lấy thông tin IP của trình duyệt</title>
+</head>
+<body>
+    <h1>Thông tin IP của bạn</h1>
+    <div id="info">Đang tải dữ liệu...</div>
+    
+    <script>
+        // Gọi API ipinfo không chỉ định IP để lấy IP hiện tại
+        fetch('https://ipinfo.io/json')
+            .then(response => response.json())
+            .then(data => {
+                const infoDiv = document.getElementById('info');
+                
+                // Chuyển đối tượng JSON thành dạng HTML danh sách
+                let htmlContent = '<ul>';
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        htmlContent += `<li><strong>${key}:</strong> ${data[key]}</li>`;
+                    }
+                }
+                htmlContent += '</ul>';
+                
+                infoDiv.innerHTML = htmlContent;
+            })
+            .catch(error => {
+                document.getElementById('info').innerText = 'Có lỗi xảy ra khi lấy dữ liệu: ' + error;
+            });
+    </script>
+</body>
+</html>
